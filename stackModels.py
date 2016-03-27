@@ -15,16 +15,16 @@ from datetime import datetime as dt
 
 '''
                             2nd order      normal
-    'Logistic_Reg',          0.875       
+    'Logistic_Reg',          0.86          0.875       
     'KNN_13'                 0.86          0.858
-    'SVC_Linear',            0.846791
-    # 'SVC',                 0.5
-    # 'DecisionTree',        0.6823409
-    'RandomForest',          0.85211
-    # 'RandomForest1',       #0.8146
-    'AdaBoost',              0.75059
-    'ExtraTrees',            0.85997
-    'ExtraTrees1',           0.8611
+    'SVC_Linear',            0.846791      0.857
+    # 'SVC',                 0.5           0.869
+    # 'DecisionTree',        0.6823409     0.754
+    'RandomForest',          0.85211       0.862
+    # 'RandomForest1',       #0.8146       0.831
+    'AdaBoost',              0.75059       0.76
+    'ExtraTrees',            0.85997       
+    'ExtraTrees1',           0.8611        0.833
                            
 '''
 
