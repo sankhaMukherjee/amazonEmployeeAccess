@@ -27,58 +27,92 @@ from sklearn.ensemble              import ExtraTreesClassifier, GradientBoosting
 
 from sklearn.externals import joblib
 
+import generatePolygonFeatures as gF
 
-def loadFile(fileName):
+
+# def generateNewFeatures(df):
+
+#     return
+
+def loadFile(fileName, newFeatures=False):
     '''
         Over here, we shall neglect the column that 
         says ROLE_TITLE. We shall keep all of the
         rest of the features in. 
     '''
-    df      = pd.read_csv(fileName)
-    columns = list(df.columns)
-    columns = [ c for c in columns if c not in ['ROLE_CODE', 'ACTION', 'id']]
+    df       = pd.read_csv(fileName)
+    columns1 = list(df.columns)
+    columns  = [ c for c in columns1 if c not in ['ROLE_CODE', 'ACTION', 'id']]
 
     X = np.array(df[columns])
-    if 'ACTION' in df.columns:
+
+    if 'ACTION' in columns1:
         y = np.array(df['ACTION'])
     else:
         y = np.zeros(X.shape[0])
 
-
     return y, X
 
-models = [
+
+
+'''
+For Second Order:
+    # linear_model.LogisticRegression(C=0.4),
+    # KNeighborsClassifier(13),
+    # SVC(kernel="linear", C=1, probability=True),
+    # SVC(gamma=2, C=1, probability=True),
+    # DecisionTreeClassifier(max_depth=1000),
+    # RandomForestClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=9, random_state=8803),#8803
+    # RandomForestClassifier(max_depth=1000, n_estimators=20, max_features=15),
+    # AdaBoostClassifier(),
+    # ExtraTreesClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=8, random_state=8903), #8903, 
+    # ExtraTreesClassifier(max_depth=2000, n_estimators=20, max_features=15),
+    # GradientBoostingClassifier(n_estimators=50, learning_rate=0.20, max_depth=20, min_samples_split=9, random_state=8749)  #8749
+
+
+For first order:
     # linear_model.LogisticRegression(C=3),
     # KNeighborsClassifier(13),
     # SVC(kernel="linear", C=1, probability=True),
     # SVC(gamma=2, C=1, probability=True),
     # DecisionTreeClassifier(max_depth=1000),
     # RandomForestClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=9, random_state=8803),#8803
-    RandomForestClassifier(max_depth=1000, n_estimators=20, max_features=15),
-    # AdaBoostClassifier()
+    # RandomForestClassifier(max_depth=1000, n_estimators=20, max_features=15),
+    # AdaBoostClassifier(),
     # ExtraTreesClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=8, random_state=8903), #8903, 
-    ExtraTreesClassifier(max_depth=2000, n_estimators=20, max_features=15),
+    # ExtraTreesClassifier(max_depth=2000, n_estimators=20, max_features=15),
+    # GradientBoostingClassifier(n_estimators=50, learning_rate=0.20, max_depth=20, min_samples_split=9, random_state=8749)  #8749
+
+'''
+
+models = [
+    linear_model.LogisticRegression(C=0.4),
+    # KNeighborsClassifier(13),
+    # SVC(kernel="linear", C=1, probability=True),
+    # SVC(gamma=2, C=1, probability=True),
+    # DecisionTreeClassifier(max_depth=1000),
+    # RandomForestClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=9, random_state=8803),#8803
+    # RandomForestClassifier(max_depth=1000, n_estimators=20, max_features=15),
+    # AdaBoostClassifier(),
+    # ExtraTreesClassifier(n_estimators=1999, max_features='sqrt', max_depth=None, min_samples_split=8, random_state=8903), #8903, 
+    # ExtraTreesClassifier(max_depth=2000, n_estimators=20, max_features=15),
     # GradientBoostingClassifier(n_estimators=50, learning_rate=0.20, max_depth=20, min_samples_split=9, random_state=8749)  #8749
     ]
 
 modelNames = [
-    # 'Logistic_Reg',
+    'Logistic_Reg',
     # 'KNN_13',
     # 'SVC_Linear',
     # 'SVC',
     # 'DecisionTree',
     # 'RandomForest',
-    'RandomForest1',
+    # 'RandomForest1',
     # 'AdaBoost',
     # 'ExtraTrees',
-    'ExtraTrees1',
+    # 'ExtraTrees1',
     # 'GradBoost'
-
     ]
 
-def ROC():
-
-    return
 
 if __name__ == '__main__':
 
@@ -88,8 +122,8 @@ if __name__ == '__main__':
     _, X_test = loadFile('data/test.csv')
 
     # Add polynomial features if necessary
-    # X      = np.hstack((X, np.load('data/trainF_02.npy')))
-    # X_test = np.hstack((X_test, np.load('data/testF_02.npy')))
+    X      = np.hstack((X, np.load('data/trainF_02.npy')))
+    X_test = np.hstack((X_test, np.load('data/testF_02.npy')))
 
     # X      = np.hstack((X, np.load('data/trainF_03.npy')))
     # X_test = np.hstack((X_test, np.load('data/testF_03.npy')))
@@ -103,13 +137,13 @@ if __name__ == '__main__':
             X_train, y_train, test_size=.20, random_state=int(random_state))
 
     # Lets save the data first ...
-    np.save('y_ps.npy', y_ps)
-    np.save('X_ps.npy', X_ps)
-    np.save('y_cv.npy', y_cv)
-    np.save('X_cv.npy', X_cv)
-    np.save('y.npy', y)
-    np.save('X.npy', X)
-    np.save('X_test.npy', X_test)
+    np.save('data/y_ps.npy', y_ps)
+    np.save('data/X_ps.npy', X_ps)
+    np.save('data/y_cv.npy', y_cv)
+    np.save('data/X_cv.npy', X_cv)
+    np.save('data/y.npy', y)
+    np.save('data/X.npy', X)
+    np.save('data/X_test.npy', X_test)
 
 
     print 'Encoding the data ...'
@@ -141,7 +175,7 @@ if __name__ == '__main__':
         # thresholdss.append( thresholds )
         # fitModels.append( model )
 
-        joblib.dump(model, 'models/'+name+'_model.pkl') 
+        joblib.dump(model, '../models/'+name+'_model.pkl') 
 
 
         # plots.plot_trainingCurve(model, X, y, 3, title=name)

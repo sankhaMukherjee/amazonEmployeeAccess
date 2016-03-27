@@ -11,18 +11,34 @@ from sklearn           import preprocessing, metrics
 from sklearn.cross_validation import cross_val_predict
 from sklearn import linear_model
 
+from datetime import datetime as dt
+
+'''
+                            2nd order      normal
+    'Logistic_Reg',          0.875       
+    'KNN_13'                 0.86          0.858
+    'SVC_Linear',            0.846791
+    # 'SVC',                 0.5
+    # 'DecisionTree',        0.6823409
+    'RandomForest',          0.85211
+    # 'RandomForest1',       #0.8146
+    'AdaBoost',              0.75059
+    'ExtraTrees',            0.85997
+    'ExtraTrees1',           0.8611
+                           
+'''
+
 
 modelNames = [
-    'Logistic_Reg',
-    'KNN_13',
-    'SVC_Linear',
-    'SVC',
-    'DecisionTree',
-    'RandomForest',
-    'RandomForest1',
-    'AdaBoost',
-    'ExtraTrees',
-    'ExtraTrees1',
+    'Logistic_Reg',    # 
+    'SVC_Linear',      # 
+    # 'SVC',           # 
+    # 'DecisionTree',  # 
+    # 'RandomForest',    # 
+    # 'RandomForest1', # some problem here for poly features ... 
+    'AdaBoost',        # 
+    # 'ExtraTrees',      # 
+    'ExtraTrees1',     # 
     ]
 
 modelFiles = [  ('../models/'+n+'_model.pkl').replace(' ', '\ ') for n in modelNames]
@@ -100,8 +116,10 @@ if __name__ == '__main__':
     meanPreds   = allPredicts.mean(axis=1)
     lrPreds     = model.predict(logTransform(allPredicts))
 
-    createSubmission(meanPreds, fileName='predictions/meanPredictET.csv')
-    createSubmission(lrPreds, fileName='predictions/lrLogPredictET.csv')
+    tmStr = dt.now().strftime('%Y-%m-%d-%H-%M-%S')
+
+    createSubmission(meanPreds, fileName='predictions/mean_%s.csv'%tmStr)
+    createSubmission(lrPreds, fileName='predictions/lr_%s.csv'%tmStr)
 
 
 

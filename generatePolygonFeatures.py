@@ -13,6 +13,23 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 import plots
 
+def combineCols(X, X_test, cols):
+    '''
+        This function takes the X and the X_test matrices, and 
+        creates a new column by combining the columns specified
+        ...
+    '''
+
+    X_all = np.vstack((X, X_test))
+
+    vals = map( lambda m: '-'.join(map(str, m)), zip( *(X_all[:,c] for c in cols)) )
+    newCol, _ = pd.factorize(  vals  )
+    newCol    = np.array(newCol)
+    
+    splitAt = X.shape[0]
+    
+    return newCol[:splitAt], newCol[splitAt:]
+
 def polyFeatures(X, X_test, polyOrder=2, verbose=True):
     '''
         Given a set of matrices, we shall add a number of features,
