@@ -1,6 +1,15 @@
-# Changes in this model 
 
-1. Feature generation is dont in a separate files. 
+
+### Changes in this model 
+
+This model is a complete do-over. We neeed to rethink our strategy for this one. 
+
+<svg width="400" height="180">
+  <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
+  style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
+</svg>
+
+1. Feature generation is done in a separate files. 
     
     `interestingFeatureS.py`
 
@@ -39,4 +48,19 @@
    We now save prediction files for _all_ the models along with the 
    prediction file for the mean model ...
 
+### Lessons Learned:
+  a. Intelligent feature generation immediately improved the ranking from 800
+     to 500. Intelligent feature selection is very important. 
+  b. *Need to check if deleting highly correlated features made a difference*
+  c. *Need to check if refactoring made a difference*
+  d. Decision Trees and Random Forests mostly overfit data. However, they are 
+     very good ensemble methods. Hence, averaging descisions from a lot of 
+     Random Forests is a very good way of reducing the overfitting inherent in 
+     them.
+  e. Always perform the final training on the entire dataset before making a 
+     prediction ...
+  f. Some models are faster to train ()
 
+### Things to check in the Future:
+  a. Does adding features change things
+  b. How ot effectively do a grid search
