@@ -24,7 +24,7 @@ models = [
     AdaBoostClassifier()
     ]
 
-N       = 40
+N       = 100
 models += [ RandomForestClassifier(max_depth=1000, 
     n_estimators=e, 
     max_features=f) for (e, f) in zip(

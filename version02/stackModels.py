@@ -19,11 +19,12 @@ modelNames = [
     'Logistic_RegCV',
     # 'AdaBoost'
     ]
-    
-N = 40
+
+N = 100
 modelNames += [ 'RF%03d'%i for i in range(N) ]
 
 modelFiles = [  ('../../models1/'+n+'_model.pkl') for n in modelNames]
+
 
 
 def createSubmission(meanPreds, fileName='result.csv'):
@@ -47,11 +48,13 @@ if __name__ == '__main__':
 
     allPredicts = []
     models = [joblib.load(m) for m in modelFiles]
-    for m, modelName in zip(models, modelNames):
+    for i, (m, modelName) in enumerate(zip(models, modelNames)):
         print modelName
         tmStr = dt.now().strftime('%Y-%m-%d-%H-%M-%S')
         pred  = m.predict_proba(X_test)[:, 1]
-        createSubmission(pred, fileName='predictions/%s_%s.csv'%(tmStr, modelName))
+        # createSubmission(pred, fileName='predictions/%s_%s.csv'%(tmStr, modelName))
+        if i in [0, 9, 19, 29, 39, 49, 59, 69, 79, 89, 99]:
+            createSubmission(pred, fileName='predictions/%s_%s_%03d.csv'%(tmStr, modelName, i))
         allPredicts.append(pred)
 
     allPredicts = np.array(allPredicts).T
